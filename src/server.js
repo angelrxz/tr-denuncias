@@ -10,6 +10,7 @@ app.get('/api/denuncias/salud', (req, res) => {
 });
 
 const puerto = process.env.PORT || 3000;
+app.use('/api/denuncias/denuncias', require('./rutas/denuncias'));
 app.listen(puerto, () => {
   console.log('Servidor en el puerto ' + puerto);
 });
