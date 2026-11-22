@@ -1,3 +1,4 @@
+const { validarToken, exigirPerfil } = require('../middlewares/auth');
 const express = require('express');
 const router = express.Router();
 const { buscarAnimal } = require('../servicios/m1');
@@ -8,7 +9,7 @@ function error(res, status, codigo, mensaje) {
   return res.status(status).json({ error: { codigo, mensaje } });
 }
 
-router.post('/', async (req, res) => {
+router.post('/', validarToken, exigirPerfil('vecino'), async (req, res) => {
   const { tipo, animalId, microchip, descripcion, ubicacion } = req.body;
 
   if (!TIPOS.includes(tipo)) {
@@ -47,6 +48,7 @@ router.post('/', async (req, res) => {
   }
 
   const denuncia = {
+    rutDenunciante: req.usuario.rut,
     tipo,
     animalId: animalId.trim(),
     microchip: microchip ? String(microchip).trim() : null,

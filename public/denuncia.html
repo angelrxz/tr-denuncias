@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denuncias y rescate - Nueva denuncia</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main class="tarjeta">
+    <h1>Nueva denuncia</h1>
+    <p id="saludo"></p>
+    <form id="formDenuncia">
+      <label for="tipo">Tipo de denuncia</label>
+      <select id="tipo" required>
+        <option value="maltrato">Maltrato</option>
+        <option value="abandono">Abandono</option>
+      </select>
+      <label for="animalId">ID del animal</label>
+      <input id="animalId" type="text" placeholder="SIM-000001" required>
+      <label for="microchip">Microchip (opcional)</label>
+      <input id="microchip" type="text" placeholder="15 números">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" rows="4" required></textarea>
+      <label for="ubicacion">Ubicación</label>
+      <input id="ubicacion" type="text" required>
+      <button type="submit">Enviar denuncia</button>
+    </form>
+    <p id="mensaje" class="mensaje"></p>
+    <button id="btnSalir" type="button" class="secundario">Cerrar sesión</button>
+  </main>
+  <script src="denuncia.js"></script>
+</body>
+</html>
