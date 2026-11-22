@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denuncias y rescate - Iniciar sesión</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main class="tarjeta">
+    <h1>Denuncias y rescate</h1>
+    <p>Ingrese con su RUT y clave municipal</p>
+    <form id="formLogin">
+      <label for="rut">RUT</label>
+      <input id="rut" type="text" placeholder="11111111-1" required>
+      <label for="clave">Clave</label>
+      <input id="clave" type="password" required>
+      <button type="submit">Ingresar</button>
+    </form>
+    <p id="mensaje" class="mensaje"></p>
+  </main>
+  <script src="login.js"></script>
+</body>
+</html>
