@@ -25,9 +25,13 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: { codigo: 'JSON_INVALIDO', mensaje: 'El cuerpo de la petición no es un JSON válido' } });
   }
+  console.error(err);
   res.status(500).json({ error: { codigo: 'ERROR_INTERNO', mensaje: 'Ocurrió un error inesperado' } });
 });
 
