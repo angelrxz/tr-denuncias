@@ -31,4 +31,14 @@ async function validarToken(req, res, next) {
   next();
 }
 
-module.exports = { validarToken, enviarError };
+// Bloquea a los perfiles que no corresponden
+function exigirPerfil(...perfilesPermitidos) {
+  return (req, res, next) => {
+    if (!perfilesPermitidos.includes(req.usuario.perfil)) {
+      return enviarError(res, 403, 'PERFIL_NO_AUTORIZADO', 'Tu perfil no puede realizar esta acción');
+    }
+    next();
+  };
+}
+
+module.exports = { validarToken, exigirPerfil, enviarError };
