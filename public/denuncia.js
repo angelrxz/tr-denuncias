@@ -45,7 +45,7 @@ document.getElementById('formDenuncia').addEventListener('submit', async (evento
       return;
     }
 
-    mensaje.textContent = 'Denuncia registrada. Estado: ' + datos.estado;
+    mensaje.textContent = 'Denuncia registrada con N° ' + datos._id + '. Estado: ' + datos.estado;
     document.getElementById('formDenuncia').reset();
   } catch (e) {
     mensaje.textContent = 'No se pudo conectar con el servidor';
