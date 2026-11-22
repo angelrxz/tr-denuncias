@@ -1,4 +1,5 @@
 const { validarToken, exigirPerfil } = require('../middlewares/auth');
+const Denuncia = require('../modelos/denuncia');
 const express = require('express');
 const router = express.Router();
 const { buscarAnimal } = require('../servicios/m1');
@@ -46,17 +47,14 @@ router.post('/', validarToken, exigirPerfil('vecino'), async (req, res) => {
   if (animal.estado === 'fallecido') {
     return error(res, 409, 'ANIMAL_FALLECIDO', 'No se puede registrar una denuncia de un animal fallecido');
   }
-
-  const denuncia = {
+  const denuncia = await Denuncia.create({
     rutDenunciante: req.usuario.rut,
     tipo,
     animalId: animalId.trim(),
     microchip: microchip ? String(microchip).trim() : null,
     descripcion: descripcion.trim(),
-    ubicacion: ubicacion.trim(),
-    estado: 'ingresada',
-    fechaCreacion: new Date().toISOString()
-  };
+    ubicacion: ubicacion.trim()
+  });
 
   res.status(201).json(denuncia);
 });
