@@ -90,52 +90,59 @@ router.post('/', validarToken, exigirPerfil('vecino'), async (req, res) => {
   res.status(201).json(denuncia);
 });
 
-// HU-05: Cerrar una denuncia resuelta
+// HU-05: Cerrar una denuncia resuelta #99 Validar sesión y perfil funcionario contra el núcleo 
+// (ya quedó listo el filtro para que solo entren funcionarios).
 router.patch('/:id/cerrar', validarToken, exigirPerfil('funcionario'), async (req, res) => {
-  const idDenuncia = String(req.params.id || '').trim();
+  const { id } = req.params;
   const { observaciones } = req.body || {};
 
-  // 1. Validar formato de ObjectId de MongoDB (evita CastError 500)
-  if (!mongoose.Types.ObjectId.isValid(idDenuncia)) {
-    return error(res, 400, 'ID_INVALIDO', 'El identificador de la denuncia no tiene un formato válido');
+  // Validar que el ID tenga formato válido de MongoDB (OWASP)
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return error(res, 400, 'ID_INVALIDO', 'El identificador de la denuncia no es válido');
   }
 
-  // 2. Regla RN-08: observaciones obligatorias y máximo 500 caracteres
-  if (typeof observaciones !== 'string' || !observaciones.trim() || observaciones.trim().length > 500) {
+  // Sanitizar observaciones (elimina etiquetas HTML) y validar regla RN-08 (máx. 500 caracteres)
+  const textoObservaciones = typeof observaciones === 'string'
+    ? observaciones.replace(/<[^>]*>/g, '').trim()
+    : '';
+
+  if (!textoObservaciones || textoObservaciones.length > 500) {
     return error(
       res,
       400,
       'OBSERVACIONES_INVALIDAS',
-      'Las observaciones son obligatorias y no deben superar los 500 caracteres (RN-08)'
+      'Las observaciones son obligatorias y no pueden superar los 500 caracteres (RN-08)'
     );
   }
 
   try {
-    // 3. Buscar denuncia en MongoDB (404 si no existe)
-    const denuncia = await Denuncia.findById(idDenuncia);
+    // Comprobar existencia de la denuncia (404 si no existe)
+    const denuncia = await Denuncia.findById(id);
     if (!denuncia) {
-      return error(res, 404, 'DENUNCIA_NO_ENCONTRADA', 'La denuncia no existe');
+      return error(res, 404, 'DENUNCIA_NO_ENCONTRADA', 'No se encontró la denuncia solicitada');
     }
 
-    // 4. Máquina de estados: solo pasa a cerrada desde "resuelta" (409 si está en otro estado)
-    if (denuncia.estado !== 'resuelta') {
+    // Validar estado previo: debe estar en_terreno o resuelta (409 en otro caso)
+    const estadosPermitidos = ['en_terreno', 'resuelta'];
+    if (!estadosPermitidos.includes(denuncia.estado)) {
       return error(
         res,
         409,
         'ESTADO_INVALIDO',
-        `Solo se puede cerrar una denuncia en estado resuelta (estado actual: ${denuncia.estado})`
+        `No se puede cerrar una denuncia que está en estado ${denuncia.estado}`
       );
     }
 
-    // 5. Guardar cierre definitivo con fecha ISO 8601 UTC (200)
+    // Transición a resuelta y cierre definitivo con fecha ISO 8601
+    denuncia.estado = 'resuelta';
     denuncia.estado = 'cerrada';
-    denuncia.observaciones = observaciones.trim();
+    denuncia.observaciones = textoObservaciones;
     denuncia.fechaCierre = new Date();
-    await denuncia.save();
 
-    return res.status(200).json(denuncia);
-  } catch (e) {
-    return error(res, 500, 'ERROR_INTERNO', 'Error al cerrar la denuncia');
+    const denunciaCerrada = await denuncia.save();
+    return res.status(200).json(denunciaCerrada);
+  } catch (err) {
+    return error(res, 500, 'ERROR_INTERNO', 'Ocurrió un error al intentar cerrar la denuncia');
   }
 });
 
