@@ -32,3 +32,74 @@ button {
 .mensaje { margin-top: 14px; }
 
 .secundario { background: #757575; }
+
+/* estilos para pagina  qvoy a hacer --martin */
+/* ya hice la pagina le puse funcionario.html */
+
+.tarjeta-ancha {
+  width: 650px;
+  max-width: 95%;
+}
+
+.item-denuncia {
+  border: 1px solid #d9e0e6;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 12px;
+  background: #fafbfc;
+}
+
+.item-denuncia p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge.cerrada {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.btn-chico {
+  width: auto;
+  padding: 7px 14px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.modal-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.oculto {
+  display: none;
+}
+
+.contador {
+  font-size: 12px;
+  color: #555;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.fila-botones {
+  display: flex;
+  gap: 10px;
+}
