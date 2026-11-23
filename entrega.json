@@ -1,0 +1,88 @@
+{
+  "seccion": "TI3043",
+  "modulo": 5,
+  "grupo": "G01",
+  "prototipo": "",
+  "repositorio": "https://github.com/angelrxz/tr-denuncias",
+  "taiga": "https://tree.taiga.io/project/lamentemaestra-ti3043-grupo-1-modulo-5-denuncias-y-rescate",
+  "integrantes": [
+    {
+      "nombre": "Martin Hernandez",
+      "github": "phipee",
+      "taiga": "lamentemaestra",
+      "rol": "SM"
+    },
+    {
+      "nombre": "Miguel Cabrera",
+      "github": "angelrxz",
+      "taiga": "miguel.cabrera09",
+      "rol": "PO"
+    },
+    {
+      "nombre": "Javier Mamani",
+      "github": "pallmall07",
+      "taiga": "jabinho",
+      "rol": "Analista"
+    },
+    {
+      "nombre": "Manuel Rodriguez",
+      "github": "TheZzenKy",
+      "taiga": "zzenky",
+      "rol": "Arquitecto"
+    }
+  ],
+  "historias": [
+    {
+      "id": "HU-05",
+      "titulo": "Cerrar denuncia con observaciones",
+      "responsable": "phipee",
+      "verificacion": {
+        "metodo": "PATCH",
+        "ruta": "/api/denuncias/denuncias/6b0452ad0ec8c5736d9f0005/cerrar",
+        "perfil": "funcionario",
+        "cuerpo": {
+          "observaciones": "Inspeccion realizada y denuncia cerrada en terreno"
+        },
+        "esperado": 200
+      }
+    },
+    {
+      "id": "HU-01",
+      "titulo": "TITULO_HU_01",
+      "responsable": "angelrxz",
+      "verificacion": {
+        "metodo": "POST",
+        "ruta": "/api/denuncias/denuncias",
+        "perfil": "vecino",
+        "cuerpo": {},
+        "esperado": 201
+      }
+    },
+    {
+      "id": "HU-04",
+      "titulo": "TITULO_HU_04",
+      "responsable": "pallmall07",
+      "verificacion": {
+        "metodo": "PATCH",
+        "ruta": "/api/denuncias/denuncias/ID_DENUNCIA/RUTA_HU04",
+        "perfil": "funcionario",
+        "cuerpo": {},
+        "esperado": 200
+      }
+    },
+    {
+      "id": "HU-03",
+      "titulo": "TITULO_HU_03",
+      "responsable": "TheZzenKy",
+      "verificacion": {
+        "metodo": "GET",
+        "ruta": "/api/denuncias/RUTA_HU03",
+        "perfil": "funcionario",
+        "cuerpo": {},
+        "esperado": 200
+      }
+    }
+  ]
+}
+
+
