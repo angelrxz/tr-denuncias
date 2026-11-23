@@ -13,6 +13,7 @@ app.get('/api/denuncias/salud', (req, res) => {
 const puerto = process.env.PORT || 3000;
 app.use('/api/denuncias/denuncias', require('./rutas/denuncias'));
 app.use('/api/denuncias/estadisticas', require('./rutas/estadisticas'));
+app.use('/api/denuncias/rescates', require('./rutas/rescates'));
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -35,5 +36,4 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: { codigo: 'ERROR_INTERNO', mensaje: 'Ocurrió un error inesperado' } });
 });
-
 
