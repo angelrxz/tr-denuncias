@@ -12,7 +12,12 @@ const denunciaSchema = new mongoose.Schema({
     enum: ['ingresada', 'asignada', 'en_terreno', 'resuelta', 'cerrada'],
     default: 'ingresada'
   },
-  fechaCreacion: { type: Date, default: Date.now }
+  observaciones: { type: String, default: null, maxlength: 500 },
+  fechaCreacion: { type: Date, default: Date.now },
+  fechaCierre: { type: Date, default: null }
 }, { versionKey: false });
 
 module.exports = mongoose.model('Denuncia', denunciaSchema);
+
+// agregue observaciones con limite de 500 caracteres segun lo indica la regla rn-08 (Si observaciones falta, 
+// está vacío o pasa los 500 caracteres $\rightarrow$ responde 400 (Bad Request).)
