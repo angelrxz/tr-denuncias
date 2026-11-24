@@ -12,6 +12,9 @@ const denunciaSchema = new mongoose.Schema({
     enum: ['ingresada', 'asignada', 'en_terreno', 'resuelta', 'cerrada'],
     default: 'ingresada'
   },
+  equipo: { type: String, default: null, maxlength: 50 },
+  asignadoPor: { type: String, default: null },
+  fechaAsignacion: { type: Date, default: null },
   observaciones: { type: String, default: null, maxlength: 500 },
   fechaCreacion: { type: Date, default: Date.now },
   fechaCierre: { type: Date, default: null }
