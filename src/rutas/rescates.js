@@ -7,8 +7,7 @@ const { validarToken, exigirPerfil, enviarError } = require('../middlewares/auth
 
 const RESULTADOS = ['rescatado', 'no_encontrado', 'derivado'];
 
-// router.post('/', validarToken, exigirPerfil('PERFIL_1', 'PERFIL_2'), async (req, res) => {
-router.post('/', validarToken, async (req, res) => {
+  router.post('/', validarToken, exigirPerfil('funcionario'), async (req, res) => {
   const { denunciaId, observaciones, resultado, fechaRescate } = req.body;
 
   if (!mongoose.isValidObjectId(denunciaId)) {
