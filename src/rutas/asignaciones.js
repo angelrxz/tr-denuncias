@@ -23,6 +23,21 @@ router.patch('/:id/asignar', validarToken, exigirPerfil('funcionario'), async (r
   try {
     const denuncia = await Denuncia.findById(id);
 
+        // 404: la denuncia no existe
+    if (!denuncia) {
+      return enviarError(res, 404, 'DENUNCIA_NO_ENCONTRADA', 'No se encontró la denuncia solicitada');
+    }
+
+    // 409: solo se asigna desde «ingresada»
+    if (denuncia.estado !== 'ingresada') {
+      return enviarError(
+        res,
+        409,
+        'ESTADO_INVALIDO',
+        `No se puede asignar una denuncia que está en estado ${denuncia.estado}`
+      );
+    }
+
     // 200: asignar
     denuncia.estado = 'asignada';
     denuncia.equipo = nombreEquipo;
