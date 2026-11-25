@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denuncias y rescate - Panel Funcionario</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main class="tarjeta tarjeta-ancha">
+    <h1>Gestión de denuncias</h1>
+    <p id="saludo"></p>
+
+    <p class="titulo-filtro">Filtrar por estado (marca los tickets):</p>
+    <div id="filtrosEstado" class="grupo-tickets">
+      <label class="ticket-item"><input type="checkbox" name="estado" value="ingresada" checked> Ingresadas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="asignada" checked> Asignadas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="en_terreno" checked> En terreno</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="resuelta"> Resueltas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="cerrada"> Cerradas</label>
+    </div>
+
+    <p id="mensaje" class="mensaje"></p>
+    <div id="listaDenuncias"></div>
+
+    <button id="btnSalir" type="button" class="secundario">Cerrar sesión</button>
+  </main>
+
+  <!-- Modal para confirmar cierre de denuncia (HU-05) -->
+  <!-- Se implementa un modal para cerrar denuncias, con observaciones obligatorias y contador de caracteres cumpliendo 
+   con la Ley 21.459 calidad e integridad de los datos -->
+  <div id="modalCierre" class="modal-fondo oculto">
+    <div class="tarjeta">
+      <h2>Cerrar denuncia</h2>
+      <p id="infoDenunciaModal"></p>
+      <form id="formCerrar">
+        <label for="observaciones">Observaciones de cierre (obligatorio)</label>
+        <textarea id="observaciones" rows="4" maxlength="500" placeholder="Escribe el detalle de resolución y cierre..." required></textarea>
+        <div id="contadorCaracteres" class="contador">0 / 500 caracteres</div>
+        <p id="mensajeModal" class="mensaje"></p>
+        <div class="fila-botones">
+          <button type="submit">Confirmar cierre</button>
+          <button id="btnCancelarModal" type="button" class="secundario">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="funcionario.js"></script>
+</body>
+</html>

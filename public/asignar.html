@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asignar denuncias</title>
+  <link rel="stylesheet" href="estilos.css">
+    <style>
+    /* Estos estilos van después de estilos.css para ordenar solo esta página */
+    body {
+      display: block;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1 { margin-bottom: 8px; }
+    .tarjeta { margin-bottom: 16px; }
+    .tarjeta select { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>Asignar denuncias</h1>
+  <p id="saludo"></p>
+  <p><a href="funcionario.html">Volver al panel del funcionario</a></p>
+  <p id="mensaje"></p>
+
+  <div id="lista"></div>
+
+  <script>
+    const token = sessionStorage.getItem('token');
+    const perfil = sessionStorage.getItem('perfil');
+
+    // Solo entra un funcionario con sesión iniciada
+  
+    if (!token || perfil !== 'funcionario') { // al abrir la vista de asignacion de denuncia si no es funcionario evita la alteracion indevida (ley 21.459)
+      window.location.href = 'index.html';
+    }
+
+    const EQUIPOS = ['Equipo 1', 'Equipo 2', 'Equipo 3'];
+    const lista = document.getElementById('lista');
+    const mensaje = document.getElementById('mensaje');
+    document.getElementById('saludo').textContent =
+      'Funcionario/a: ' + (sessionStorage.getItem('nombre') || '');
+
+    // Arma la tarjeta de una denuncia (textContent: evita inyectar HTML)
+    // Usa document.createElement y .textContent en vez de innerHTML con datos de usuario, evitando inyección de 
+    // código malicioso o alteración del sistema (Ley 21.459).
+    function crearTarjeta(d) {
+      const tarjeta = document.createElement('div');
+      tarjeta.className = 'tarjeta';
+
+      const titulo = document.createElement('p');
+      titulo.textContent = d.tipo + ' · animal ' + d.animalId;
+      tarjeta.appendChild(titulo);
+
+      const ubicacion = document.createElement('p');
+      ubicacion.textContent = 'Ubicación: ' + d.ubicacion;
+      tarjeta.appendChild(ubicacion);
+
+      const descripcion = document.createElement('p');
+      descripcion.textContent = d.descripcion;
+      tarjeta.appendChild(descripcion);
+
+      const select = document.createElement('select');
+      for (const equipo of EQUIPOS) {
+        const opcion = document.createElement('option');
+        opcion.textContent = equipo;
+        select.appendChild(opcion);
+      }
+      tarjeta.appendChild(select);
+
+      const boton = document.createElement('button');
+      boton.type = 'button';
+      boton.className = 'btn-chico';
+      boton.textContent = 'Asignar';
+      boton.addEventListener('click', () => asignar(d._id, select.value));
+      tarjeta.appendChild(boton);
+
+      return tarjeta;
+    }
+
+    // Trae las denuncias nuevas y las muestra
+    async function cargarLista() {
+      mensaje.textContent = '';
+      lista.innerHTML = '';
+      try {
+        const respuesta = await fetch('/api/denuncias/denuncias?estado=ingresada&page=1&limit=20', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+          mensaje.textContent = 'Error ' + respuesta.status + ': ' + datos.error.mensaje;
+          return;
+        }
+        if (datos.datos.length === 0) {
+          mensaje.textContent = 'No hay denuncias nuevas por asignar.';
+          return;
+        }
+        for (const d of datos.datos) {
+          lista.appendChild(crearTarjeta(d));
+        }
+      } catch (e) {
+        mensaje.textContent = 'No se pudo conectar con el servidor';
+      }
+    }
+
+    // Asigna una denuncia a un equipo
+    async function asignar(id, equipo) {
+      try {
+        const respuesta = await fetch('/api/denuncias/denuncias/' + id + '/asignar', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ equipo })
+        });
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
+          await cargarLista();
+          mensaje.textContent = 'Denuncia asignada a ' + equipo + '. Estado: ' + datos.estado;
+        } else {
+          mensaje.textContent = 'Error ' + respuesta.status + ': ' + datos.error.mensaje;
+        }
+      } catch (e) {
+        mensaje.textContent = 'No se pudo conectar con el servidor';
+      }
+    }
+
+    cargarLista();
+  </script>
+</body>
+</html>

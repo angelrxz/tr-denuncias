@@ -1,5 +1,5 @@
 const token = sessionStorage.getItem('token');
-
+// antes de permitir el ingreso al formulario de denuncia, se valida que exista un token en sessionStorage, si no existe se redirige a index.html (ley 21.459)
 if (!token) {
   window.location.href = 'index.html';
 }
@@ -34,6 +34,9 @@ document.getElementById('formDenuncia').addEventListener('submit', async (evento
     });
     const datos = await respuesta.json();
 
+// Cuando el backend responde HTTP 401. Cómo: Limpia sessionStorage (sessionStorage.clear()) y corta el acceso, 
+// evitando que credenciales caducadas o manipuladas traspasen la seguridad que implementamos (Ley 21.459)
+// esto es correlativo a la linea 65 -73 del archivo funcionario.js, donde se valida el token y el perfil del usuario
     if (respuesta.status === 401) {
       sessionStorage.clear();
       window.location.href = 'index.html';
@@ -45,7 +48,7 @@ document.getElementById('formDenuncia').addEventListener('submit', async (evento
       return;
     }
 
-    mensaje.textContent = 'Denuncia registrada. Estado: ' + datos.estado;
+    mensaje.textContent = 'Denuncia registrada con N° ' + datos._id + '. Estado: ' + datos.estado;
     document.getElementById('formDenuncia').reset();
   } catch (e) {
     mensaje.textContent = 'No se pudo conectar con el servidor';
