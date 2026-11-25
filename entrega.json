@@ -38,7 +38,7 @@
       "responsable": "phipee",
       "verificacion": {
         "metodo": "PATCH",
-        "ruta": "/api/denuncias/denuncias/6b0452ad0ec8c5736d9f0005/cerrar",
+        "ruta": "/api/denuncias/denuncias/:id/cerrar",
         "perfil": "funcionario",
         "cuerpo": {
           "observaciones": "Inspeccion realizada y denuncia cerrada en terreno"
