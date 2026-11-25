@@ -23,6 +23,9 @@ mongoose.connect(process.env.MONGODB_URI)
       console.log('Servidor en el puerto ' + puerto);
     });
   })
+
+// ante un mal json da un 400 o ante fallos inesperados un 500, así devuelve mensajes controlados sin exponer rutas 
+// del servidor ni detalles de la base de datos, evitando fugas de información (Ley 21.719)
   .catch((err) => {
     console.error('Error de conexión a MongoDB:', err.message);
     process.exit(1);
