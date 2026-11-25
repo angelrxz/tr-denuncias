@@ -9,7 +9,7 @@ document.getElementById('saludo').textContent = 'Funcionario/a: ' + sessionStora
 
 const listaDenuncias = document.getElementById('listaDenuncias');
 const mensaje = document.getElementById('mensaje');
-const filtroEstado = document.getElementById('filtroEstado');
+const checkboxesEstado = document.querySelectorAll('input[name="estado"]');
 
 const modalCierre = document.getElementById('modalCierre');
 const infoDenunciaModal = document.getElementById('infoDenunciaModal');
@@ -43,10 +43,18 @@ async function cargarDenuncias() {
   mensaje.textContent = 'Cargando denuncias...';
   listaDenuncias.innerHTML = '';
 
-  const estado = filtroEstado.value;
-  const url = estado
-    ? `/api/denuncias/denuncias?estado=${encodeURIComponent(estado)}`
-    : '/api/denuncias/denuncias';
+  const seleccionados = Array.from(checkboxesEstado)
+    .filter((cb) => cb.checked)
+    .map((cb) => cb.value);
+
+  if (seleccionados.length === 0) {
+    mensaje.textContent = 'Marca al menos un ticket de estado para ver denuncias.';
+    return;
+  }
+
+  const url = seleccionados.length === 1
+    ? `/api/denuncias/denuncias?estado=${encodeURIComponent(seleccionados[0])}`
+    : '/api/denuncias/denuncias?limit=100';
 
   try {
     const respuesta = await fetch(url, {
@@ -65,8 +73,8 @@ async function cargarDenuncias() {
       return;
     }
 
-    const denuncias = datos.datos || [];
-    mensaje.textContent = denuncias.length === 0 ? 'No hay denuncias en este estado.' : '';
+    const denuncias = (datos.datos || []).filter((d) => seleccionados.includes(d.estado));
+    mensaje.textContent = denuncias.length === 0 ? 'No hay denuncias en los estados seleccionados.' : '';
 
     denuncias.forEach((d) => {
       const tarjeta = document.createElement('div');
@@ -153,7 +161,7 @@ formCerrar.addEventListener('submit', async (evento) => {
   }
 });
 
-filtroEstado.addEventListener('change', cargarDenuncias);
+checkboxesEstado.forEach((cb) => cb.addEventListener('change', cargarDenuncias));
 
 document.getElementById('btnSalir').addEventListener('click', () => {
   sessionStorage.clear();
