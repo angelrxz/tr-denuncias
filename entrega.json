@@ -70,15 +70,17 @@
         "esperado": 200
       }
     },
-    {
+        {
       "id": "HU-03",
-      "titulo": "TITULO_HU_03",
+      "titulo": "Asignar denuncias a inspectores",
       "responsable": "TheZzenKy",
       "verificacion": {
-        "metodo": "GET",
-        "ruta": "/api/denuncias/RUTA_HU03",
+        "metodo": "PATCH",
+        "ruta": "/api/denuncias/denuncias/6b07466bfe93c319e9b2dd7b/asignar",
         "perfil": "funcionario",
-        "cuerpo": {},
+        "cuerpo": {
+          "equipo": "Equipo 1"
+        },
         "esperado": 200
       }
     }
