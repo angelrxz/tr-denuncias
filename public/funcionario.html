@@ -11,13 +11,14 @@
     <h1>Gestión de denuncias</h1>
     <p id="saludo"></p>
 
-    <label for="filtroEstado">Filtrar por estado</label>
-    <select id="filtroEstado">
-      <option value="">Todas</option>
-      <option value="en_terreno" selected>En terreno (listas para cierre)</option>
-      <option value="resuelta">Resueltas</option>
-      <option value="cerrada">Cerradas</option>
-    </select>
+    <p class="titulo-filtro">Filtrar por estado (marca los tickets):</p>
+    <div id="filtrosEstado" class="grupo-tickets">
+      <label class="ticket-item"><input type="checkbox" name="estado" value="ingresada" checked> Ingresadas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="asignada" checked> Asignadas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="en_terreno" checked> En terreno</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="resuelta"> Resueltas</label>
+      <label class="ticket-item"><input type="checkbox" name="estado" value="cerrada"> Cerradas</label>
+    </div>
 
     <p id="mensaje" class="mensaje"></p>
     <div id="listaDenuncias"></div>
