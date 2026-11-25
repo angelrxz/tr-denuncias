@@ -2,7 +2,7 @@
   "seccion": "TI3043",
   "modulo": 5,
   "grupo": "G01",
-  "prototipo": "",
+  "prototipo": "https://tr-denuncias.onrender.com",
   "repositorio": "https://github.com/angelrxz/tr-denuncias",
   "taiga": "https://tree.taiga.io/project/lamentemaestra-ti3043-grupo-1-modulo-5-denuncias-y-rescate",
   "integrantes": [
@@ -48,13 +48,18 @@
     },
     {
       "id": "HU-01",
-      "titulo": "TITULO_HU_01",
+      "titulo": "Registrar una denuncia",
       "responsable": "angelrxz",
       "verificacion": {
         "metodo": "POST",
         "ruta": "/api/denuncias/denuncias",
         "perfil": "vecino",
-        "cuerpo": {},
+        "cuerpo": {
+          "tipo": "maltrato",
+          "animalId": "SIM-000001",
+          "descripcion": "Perro amarrado sin agua ni comida hace dos dias",
+          "ubicacion": "Pasaje Los Aromos 123"
+        },
         "esperado": 201
       }
     },
