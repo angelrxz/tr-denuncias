@@ -4,7 +4,8 @@ const perfil = sessionStorage.getItem('perfil');
 if (!token || perfil !== 'funcionario') {
   window.location.href = 'index.html';
 }
-
+// linea 1-6 ley 21.459 (previene acceso ilicito a sistemas informaticos)- ley 21.719 (garantiza el principio de seguridad y confidencialidad)
+//al cargar el panel de gestion re dirige a index.html y obviamente falta el token entonces el perfil no es funcionario
 document.getElementById('saludo').textContent = 'Funcionario/a: ' + sessionStorage.getItem('nombre');
 
 const listaDenuncias = document.getElementById('listaDenuncias');
@@ -61,13 +62,17 @@ async function cargarDenuncias() {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const datos = await respuesta.json();
-
+// Cuando el backend responde HTTP 401. Cómo: Limpia sessionStorage (sessionStorage.clear()) y corta el acceso, 
+// evitando que credenciales caducadas o manipuladas traspasen la seguridad que implementamos (Ley 21.459)
+// esto es correlativo a la linea 40 - 45 del archivo funcionario.js, donde se valida el token y el perfil del usuario
     if (respuesta.status === 401) {
       sessionStorage.clear();
       window.location.href = 'index.html';
       return;
     }
 
+
+    // renderizado con textContent y createElement para evitar inyección de código malicioso (Ley 21.459)
     if (!respuesta.ok) {
       mensaje.textContent = datos.error ? datos.error.mensaje : 'Error al cargar denuncias';
       return;

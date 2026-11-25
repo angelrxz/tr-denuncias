@@ -31,7 +31,8 @@
     const perfil = sessionStorage.getItem('perfil');
 
     // Solo entra un funcionario con sesión iniciada
-    if (!token || perfil !== 'funcionario') {
+  
+    if (!token || perfil !== 'funcionario') { // al abrir la vista de asignacion de denuncia si no es funcionario evita la alteracion indevida (ley 21.459)
       window.location.href = 'index.html';
     }
 
@@ -42,6 +43,8 @@
       'Funcionario/a: ' + (sessionStorage.getItem('nombre') || '');
 
     // Arma la tarjeta de una denuncia (textContent: evita inyectar HTML)
+    // Usa document.createElement y .textContent en vez de innerHTML con datos de usuario, evitando inyección de 
+    // código malicioso o alteración del sistema (Ley 21.459).
     function crearTarjeta(d) {
       const tarjeta = document.createElement('div');
       tarjeta.className = 'tarjeta';

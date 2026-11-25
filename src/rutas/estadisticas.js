@@ -6,6 +6,8 @@ const Denuncia = require('../modelos/denuncia');
 const ESTADOS = ['ingresada', 'asignada', 'en_terreno', 'resuelta', 'cerrada'];
 const TIPOS = ['maltrato', 'abandono'];
 
+// aca la funcion intenta validar token y exigir perfil de jefatura, si no cumple con los 
+// requisitos devuelve 401 y el front end limpia sessionStorage y redirige a index.html (ley 21.719)
 router.get('/', validarToken, exigirPerfil('jefatura'), async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 20;
