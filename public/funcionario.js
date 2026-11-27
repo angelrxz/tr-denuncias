@@ -117,8 +117,45 @@ async function cargarDenuncias() {
         tarjeta.appendChild(btnCerrar);
       }
 
+      if (d.estado === 'asignada') {
+        const btnTerreno = document.createElement('button');
+        btnTerreno.type = 'button';
+        btnTerreno.className = 'btn-chico';
+        btnTerreno.textContent = 'Iniciar trabajo en terreno';
+        btnTerreno.addEventListener('click', () => enviarATerreno(d._id));
+        tarjeta.appendChild(btnTerreno);
+      }
+
       listaDenuncias.appendChild(tarjeta);
     });
+  } catch (e) {
+    mensaje.textContent = 'No se pudo conectar con el servidor';
+  }
+}
+
+async function enviarATerreno(id) {
+  mensaje.textContent = 'Actualizando estado de la denuncia...';
+
+  try {
+    const respuesta = await fetch(`/api/denuncias/denuncias/${id}/terreno`, {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const datos = await respuesta.json();
+
+    if (respuesta.status === 401) {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+      return;
+    }
+
+    if (!respuesta.ok) {
+      mensaje.textContent = datos.error ? datos.error.mensaje : 'No se pudo enviar la denuncia a terreno';
+      return;
+    }
+
+    await cargarDenuncias();
+    mensaje.textContent = `Denuncia N° ${datos._id} enviada a terreno correctamente.`;
   } catch (e) {
     mensaje.textContent = 'No se pudo conectar con el servidor';
   }
