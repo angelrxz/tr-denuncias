@@ -2,7 +2,11 @@
   "seccion": "TI3043",
   "modulo": 5,
   "grupo": "G01",
+<<<<<<< HEAD
   "prototipo": "https://tr-denuncias.onrender.com",
+=======
+  "prototipo": "https://tr-denuncias.onrender.com/",
+>>>>>>> 0ba9efbf697caa80a251a18ddd53f1d7993175d6
   "repositorio": "https://github.com/angelrxz/tr-denuncias",
   "taiga": "https://tree.taiga.io/project/lamentemaestra-ti3043-grupo-1-modulo-5-denuncias-y-rescate",
   "integrantes": [
@@ -34,11 +38,11 @@
   "historias": [
     {
       "id": "HU-05",
-      "titulo": "Cerrar denuncia con observaciones",
+      "titulo": "Cerrar una denuncia resuelta",
       "responsable": "phipee",
       "verificacion": {
         "metodo": "PATCH",
-        "ruta": "/api/denuncias/denuncias/6b0452ad0ec8c5736d9f0005/cerrar",
+        "ruta": "/api/denuncias/denuncias/:id/cerrar",
         "perfil": "funcionario",
         "cuerpo": {
           "observaciones": "Inspeccion realizada y denuncia cerrada en terreno"
@@ -48,6 +52,7 @@
     },
     {
       "id": "HU-01",
+<<<<<<< HEAD
       "titulo": "Registrar una denuncia",
       "responsable": "angelrxz",
       "verificacion": {
@@ -60,16 +65,24 @@
           "descripcion": "Perro amarrado sin agua ni comida hace dos dias",
           "ubicacion": "Pasaje Los Aromos 123"
         },
+=======
+      "titulo": "Cerrar una denuncia",
+      "responsable": "angelrxz",
+      "verificacion": {
+        "metodo": "POST",
+        "ruta": "aca hay que poner la ruta que ustedes saben que les funciona", 
+        "cuerpo": {},
+>>>>>>> 0ba9efbf697caa80a251a18ddd53f1d7993175d6
         "esperado": 201
       }
     },
     {
       "id": "HU-04",
-      "titulo": "TITULO_HU_04",
+      "titulo": "registrar el rescate de un animal",
       "responsable": "pallmall07",
       "verificacion": {
         "metodo": "PATCH",
-        "ruta": "/api/denuncias/denuncias/ID_DENUNCIA/RUTA_HU04",
+        "ruta": "aca hay que poner la ruta que ustedes saben que les funciona",
         "perfil": "funcionario",
         "cuerpo": {},
         "esperado": 200
@@ -77,11 +90,31 @@
     },
         {
       "id": "HU-03",
+<<<<<<< HEAD
       "titulo": "Asignar denuncias a inspectores",
       "responsable": "TheZzenKy",
       "verificacion": {
         "metodo": "PATCH",
         "ruta": "/api/denuncias/denuncias/6b07466bfe93c319e9b2dd7b/asignar",
+=======
+      "titulo": "Asignar denuncia a inspectores",
+      "responsable": "TheZzenKy",
+      "verificacion": {
+        "metodo": "GET",
+        "ruta": "aca hay que poner la ruta que ustedes saben que les funciona",
+        "perfil": "funcionario",
+        "cuerpo": {},
+        "esperado": 200
+      }
+          },
+    {
+      "id": "HU-06",
+      "titulo": "Compartir datos para reportes",
+      "responsable": "phipee - angelrxz",
+      "verificacion": {
+        "metodo": "PATCH",
+        "ruta": "aca hay que poner la ruta que ustedes saben que les funciona",
+>>>>>>> 0ba9efbf697caa80a251a18ddd53f1d7993175d6
         "perfil": "funcionario",
         "cuerpo": {
           "equipo": "Equipo 1"
@@ -90,6 +123,5 @@
       }
     }
   ]
-}
-
+}  
 
